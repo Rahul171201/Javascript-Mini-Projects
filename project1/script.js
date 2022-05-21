@@ -4,6 +4,15 @@ import imageList from "./Image.js";
 const leftListBox = document.querySelector(".leftbox");
 const numberOfItems = imageList.length;
 
+// string reduction function
+const reduceString = (str) => {
+    if(str.length <= 15)
+        return str;
+    else{
+        return (str.substring(0,7) + '...' + str.substring(str.length-7,str.length));
+    }
+}
+
 // handle form submit
 const handleForm = (target) => {
     const formElement = document.querySelector("#popup-form");
@@ -22,7 +31,7 @@ const handleForm = (target) => {
         const leftItem = document.querySelector(`[src = "${currentSourceImage}"]`);
         const leftItemParent = leftItem.parentElement;
         const leftItemText = leftItemParent.querySelector("p");
-        leftItemText.innerHTML = currentText;
+        leftItemText.innerHTML = reduceString(currentText);
     
         // update right column element
         updateRightBox(currentSourceImage, currentText);
@@ -159,7 +168,7 @@ const handleKeyboardEvent = () => {
 imageList.forEach((item, index) => {
     const content = `
         <img src=${item.previewImage} alt ="list image" class="image">
-        <p class="imagetext">${item.title}</p>
+        <p class="imagetext">${reduceString(item.title)}</p>
 `;
     const listItem = document.createElement("div");
     listItem.classList.add("listitem");
