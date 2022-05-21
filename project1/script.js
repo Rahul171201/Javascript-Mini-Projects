@@ -1,7 +1,37 @@
 import imageList from "./Image.js";
 
-const listBox = document.querySelector(".leftbox");
+// Creating Left box column
+const leftListBox = document.querySelector(".leftbox");
 
+// Updating right box column on click
+const updateRightBox = (rightImage, rightImageTitle) => {
+    const rightListBox = document.querySelector(".rightbox");
+
+    const rightContent = `
+    <div class="imageContainer">
+        <img src=${rightImage} alt="right-image" class="rightImage">
+    </div>
+    <p class="imageTitle">${rightImageTitle}</p>
+    `;
+    rightListBox.innerHTML = rightContent;
+}
+
+// function to handle the click event on any left list item
+const handleClick = (leftListBox, listItem) => {
+    listItem.addEventListener("click", () => {
+        
+        const imageElement = listItem.querySelector("img");
+        let rightImage = imageElement.getAttribute("src");
+        
+        const rightTextTitle = listItem.querySelector(".imagetext");
+        let rightImageTitle = rightTextTitle.innerHTML;
+        updateRightBox(rightImage, rightImageTitle);
+    });
+
+    leftListBox.append(listItem);
+}
+
+// Displaying all the images info on the left column
 imageList.forEach((item) => {
     const content = `
         <img src=${item.previewImage} alt ="list image" class="image">
@@ -10,7 +40,18 @@ imageList.forEach((item) => {
     const listItem = document.createElement("div");
     listItem.classList.add("listitem");
     listItem.innerHTML = content;
+    handleClick(leftListBox, listItem);
 
-    listBox.append(listItem);
 });
 
+// Creating Default Right box column
+const rightListBox = document.querySelector(".rightbox");
+
+const rightContent = `
+    <div class="imageContainer">
+        <img src="default.jpeg" alt="right-image" class="rightImage">
+    </div>
+    <p class="imageTitle">MAC OS</p>
+`;
+
+rightListBox.innerHTML = rightContent;
