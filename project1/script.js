@@ -5,9 +5,18 @@ const leftListBox = document.querySelector(".leftbox");
 
 // Handle submit
 const handleSubmit = (target) => {
-    const currentRightImage = document.querySelector(".rightImage").getAttribute("src");
+    const currentRightImage = document.querySelector(".rightImage")
+    const currentSourceImage = currentRightImage.getAttribute("src");
     const currentText = document.querySelector(".textInput").value;
-    updateRightBox(currentRightImage, currentText);
+
+    // update left column element
+    const leftItem = document.querySelector(`[src = "${currentSourceImage}"]`);
+    const leftItemParent = leftItem.parentElement;
+    const leftItemText = leftItemParent.querySelector("p");
+    leftItemText.innerHTML = currentText;
+
+    // update right column element
+    updateRightBox(currentSourceImage, currentText);
     closePopup(target);
 }
 
@@ -18,7 +27,7 @@ const openPopup = (target) => {
     target.classList.add('active');
     overlay.classList.add('active');
     const submitButton = document.querySelector(".submitButton");
-    console.log(submitButton);
+    // console.log(submitButton);
     submitButton.addEventListener("click", (e) => {
         e.preventDefault();
         handleSubmit(target);
@@ -37,7 +46,7 @@ const closePopup = (target) => {
 const handleUpdateButton = (updateButton) => {
     updateButton.addEventListener("click", () => {
         const target = document.querySelector(`${updateButton.getAttribute("target")}`);
-        console.log(target);
+        // console.log(target);
         openPopup(target);
     });
 }
@@ -46,7 +55,7 @@ const handleUpdateButton = (updateButton) => {
 const handleCloseButton = (closeButton, updateButton) => {
     closeButton.addEventListener("click", () => {
         const target = document.querySelector(`${updateButton.getAttribute("target")}`);
-        console.log(target);
+        // console.log(target);
         closePopup(target);
     });
 }
@@ -104,4 +113,4 @@ imageList.forEach((item) => {
 });
 
 // Creating Default Right box column
-updateRightBox("default.jpeg", "MAC OS");
+updateRightBox(imageList[0].previewImage, imageList[0].title);
