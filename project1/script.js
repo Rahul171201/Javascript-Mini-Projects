@@ -3,6 +3,54 @@ import imageList from "./Image.js";
 // Creating Left box column
 const leftListBox = document.querySelector(".leftbox");
 
+// Handle submit
+const handleSubmit = (target) => {
+    const currentRightImage = document.querySelector(".rightImage").getAttribute("src");
+    const currentText = document.querySelector(".textInput").value;
+    updateRightBox(currentRightImage, currentText);
+    closePopup(target);
+}
+
+// Open Popup
+const openPopup = (target) => {
+    if(target == null)
+        return;
+    target.classList.add('active');
+    overlay.classList.add('active');
+    const submitButton = document.querySelector(".submitButton");
+    console.log(submitButton);
+    submitButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        handleSubmit(target);
+    })
+}
+
+// Close Popup
+const closePopup = (target) => {
+    if(target == null)
+        return;
+    target.classList.remove('active');
+    overlay.classList.remove('active');
+}
+
+// Handle update button
+const handleUpdateButton = (updateButton) => {
+    updateButton.addEventListener("click", () => {
+        const target = document.querySelector(`${updateButton.getAttribute("target")}`);
+        console.log(target);
+        openPopup(target);
+    });
+}
+
+// Handle close button
+const handleCloseButton = (closeButton, updateButton) => {
+    closeButton.addEventListener("click", () => {
+        const target = document.querySelector(`${updateButton.getAttribute("target")}`);
+        console.log(target);
+        closePopup(target);
+    });
+}
+
 // Updating right box column on click
 const updateRightBox = (rightImage, rightImageTitle) => {
     const rightListBox = document.querySelector(".rightbox");
@@ -13,11 +61,18 @@ const updateRightBox = (rightImage, rightImageTitle) => {
     </div>
     <div class="textBox">
      <p class="imageTitle">${rightImageTitle}</p>
-     <button class="updateButton">UPDATE</button>
+     <button class="updateButton" target="#popup">UPDATE</button>
     <div>
     
     `;
+
     rightListBox.innerHTML = rightContent;
+
+    const updateButton = rightListBox.querySelector(".updateButton");
+    const closeButton = document.querySelector(".popup_close_button");
+
+    handleUpdateButton(updateButton);
+    handleCloseButton(closeButton, updateButton);
 }
 
 // function to handle the click event on any left list item
@@ -49,16 +104,4 @@ imageList.forEach((item) => {
 });
 
 // Creating Default Right box column
-const rightListBox = document.querySelector(".rightbox");
-
-const rightContent = `
-    <div class="imageContainer">
-        <img src="default.jpeg" alt="right-image" class="rightImage">
-    </div>
-    <div class="textBox">
-     <p class="imageTitle">MAC OS</p>
-     <button class="updateButton">UPDATE</button>
-    <div>
-`;
-
-rightListBox.innerHTML = rightContent;
+updateRightBox("default.jpeg", "MAC OS");
