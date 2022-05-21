@@ -4,21 +4,15 @@ import imageList from "./Image.js";
 const leftListBox = document.querySelector(".leftbox");
 const numberOfItems = imageList.length;
 
-// Open Popup
-const openPopup = (target) => {
-    if(target == null)
-        return;
-    target.classList.add('active');
-    overlay.classList.add('active');
-    console.log("pop up opened");
+// handle form submit
+const handleForm = (target) => {
     const formElement = document.querySelector("#popup-form");
-    // console.log(submitButton);
+    // console.log(formElement);
     formElement.removeEventListener("submit", (e)=>{
         console.log("event removed");
     });
     formElement.addEventListener("submit", (e) => {
-        
-        e.preventDefault();
+        e.preventDefault(); // prevent reloading
         e.stopImmediatePropagation(); // to stop multiple event firing
         const currentRightImage = document.querySelector(".rightImage")
         const currentSourceImage = currentRightImage.getAttribute("src");
@@ -29,15 +23,24 @@ const openPopup = (target) => {
         const leftItemParent = leftItem.parentElement;
         const leftItemText = leftItemParent.querySelector("p");
         leftItemText.innerHTML = currentText;
-        // console.log("form submitted by ", currentText);
+    
         // update right column element
         updateRightBox(currentSourceImage, currentText);
         closePopup(target);
         document.querySelector(".textInput").value = "";
 
     })
+}
 
-    
+// Open Popup
+const openPopup = (target) => {
+    if(target == null)
+        return;
+    target.classList.add('active');
+    overlay.classList.add('active');
+    console.log("pop up opened");
+
+    handleForm(target);
 }
 
 // Close Popup
