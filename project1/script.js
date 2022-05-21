@@ -85,7 +85,7 @@ const updateRightBox = (rightImage, rightImageTitle) => {
 }
 
 // function to handle the click event on any left list item
-const handleClick = (leftListBox, listItem) => {
+const handleClick = (listItem) => {
     listItem.addEventListener("click", () => {
         
         const imageElement = listItem.querySelector("img");
@@ -93,6 +93,15 @@ const handleClick = (leftListBox, listItem) => {
         
         const rightTextTitle = listItem.querySelector(".imagetext");
         let rightImageTitle = rightTextTitle.innerHTML;
+
+        const selectedItem = document.querySelector(".selected");
+        if(selectedItem == null){
+            listItem.classList.add("selected");
+        }
+        else{
+            selectedItem.classList.remove("selected");
+            listItem.classList.add("selected");
+        }
         updateRightBox(rightImage, rightImageTitle);
     });
 
@@ -108,7 +117,7 @@ imageList.forEach((item) => {
     const listItem = document.createElement("div");
     listItem.classList.add("listitem");
     listItem.innerHTML = content;
-    handleClick(leftListBox, listItem);
+    handleClick(listItem);
 
 });
 
