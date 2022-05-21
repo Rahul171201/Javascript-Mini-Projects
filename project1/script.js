@@ -11,7 +11,11 @@ const updateRightBox = (rightImage, rightImageTitle) => {
     <div class="imageContainer">
         <img src=${rightImage} alt="right-image" class="rightImage">
     </div>
-    <p class="imageTitle">${rightImageTitle}</p>
+    <div class="textBox">
+     <p class="imageTitle">${rightImageTitle}</p>
+     <button class="updateButton">UPDATE</button>
+    <div>
+    
     `;
     rightListBox.innerHTML = rightContent;
 }
@@ -51,7 +55,10 @@ const rightContent = `
     <div class="imageContainer">
         <img src="default.jpeg" alt="right-image" class="rightImage">
     </div>
-    <p class="imageTitle">MAC OS</p>
+    <div class="textBox">
+     <p class="imageTitle">MAC OS</p>
+     <button class="updateButton">UPDATE</button>
+    <div>
 `;
 
 rightListBox.innerHTML = rightContent;

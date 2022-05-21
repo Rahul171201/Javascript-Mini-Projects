@@ -44,3 +44,15 @@ body{
     object-fit: cover;
 }
 
+.updateButton{
+    width: 80px;
+    height: 40px;
+    background-color: #FF5D5D;
+    color: white;
+    border-style: none;
+    border-radius: 9px;
+}
+
+.updateButton:hover{
+    background-color: #FF8C8C;
+}
