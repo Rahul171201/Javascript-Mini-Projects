@@ -2,23 +2,7 @@ import imageList from "./Image.js";
 
 // Creating Left box column
 const leftListBox = document.querySelector(".leftbox");
-
-// Handle submit
-const handleSubmit = (target) => {
-    const currentRightImage = document.querySelector(".rightImage")
-    const currentSourceImage = currentRightImage.getAttribute("src");
-    const currentText = document.querySelector(".textInput").value;
-
-    // update left column element
-    const leftItem = document.querySelector(`[src = "${currentSourceImage}"]`);
-    const leftItemParent = leftItem.parentElement;
-    const leftItemText = leftItemParent.querySelector("p");
-    leftItemText.innerHTML = currentText;
-
-    // update right column element
-    updateRightBox(currentSourceImage, currentText);
-    closePopup(target);
-}
+const numberOfItems = imageList.length;
 
 // Open Popup
 const openPopup = (target) => {
@@ -26,12 +10,34 @@ const openPopup = (target) => {
         return;
     target.classList.add('active');
     overlay.classList.add('active');
-    const submitButton = document.querySelector(".submitButton");
+    console.log("pop up opened");
+    const formElement = document.querySelector("#popup-form");
     // console.log(submitButton);
-    submitButton.addEventListener("click", (e) => {
+    formElement.removeEventListener("submit", (e)=>{
+        console.log("event removed");
+    });
+    formElement.addEventListener("submit", (e) => {
+        
         e.preventDefault();
-        handleSubmit(target);
+        e.stopImmediatePropagation(); // to stop multiple event firing
+        const currentRightImage = document.querySelector(".rightImage")
+        const currentSourceImage = currentRightImage.getAttribute("src");
+        const currentText = document.querySelector(".textInput").value;
+
+        // update left column element
+        const leftItem = document.querySelector(`[src = "${currentSourceImage}"]`);
+        const leftItemParent = leftItem.parentElement;
+        const leftItemText = leftItemParent.querySelector("p");
+        leftItemText.innerHTML = currentText;
+        // console.log("form submitted by ", currentText);
+        // update right column element
+        updateRightBox(currentSourceImage, currentText);
+        closePopup(target);
+        document.querySelector(".textInput").value = "";
+
     })
+
+    
 }
 
 // Close Popup
@@ -40,6 +46,7 @@ const closePopup = (target) => {
         return;
     target.classList.remove('active');
     overlay.classList.remove('active');
+    
 }
 
 // Handle update button
@@ -102,24 +109,76 @@ const handleClick = (listItem) => {
             selectedItem.classList.remove("selected");
             listItem.classList.add("selected");
         }
+        
         updateRightBox(rightImage, rightImageTitle);
     });
 
     leftListBox.append(listItem);
 }
 
+// function to handle keyboard events on left items
+const handleKeyboardEvent = () => {
+    window.addEventListener("keydown", (e) => {
+        // console.log(e);
+        let selectedItem = document.querySelector(".selected");
+        if(selectedItem == null){
+            return;
+        }
+        else{
+            let currentId = selectedItem.getAttribute("id");
+            currentId = Number(currentId);
+            if(e.key === "ArrowUp"){
+                if(currentId>0)
+                    currentId--;
+                else
+                    currentId = numberOfItems-1;
+            }
+            else if(e.key === "ArrowDown"){
+                if(currentId<numberOfItems-1)
+                    currentId++;
+                else
+                    currentId = 0;
+            }
+            selectedItem.classList.remove("selected");
+            selectedItem = document.querySelector(`[id = "${currentId}"]`);
+            selectedItem.classList.add("selected");
+            const imageElement = selectedItem.querySelector("img");
+            let rightImage = imageElement.getAttribute("src");
+        
+            const rightTextTitle = selectedItem.querySelector(".imagetext");
+            let rightImageTitle = rightTextTitle.innerHTML;
+            updateRightBox(rightImage,rightImageTitle);
+        }
+    })
+};
+
 // Displaying all the images info on the left column
-imageList.forEach((item) => {
+imageList.forEach((item, index) => {
     const content = `
         <img src=${item.previewImage} alt ="list image" class="image">
         <p class="imagetext">${item.title}</p>
 `;
     const listItem = document.createElement("div");
     listItem.classList.add("listitem");
+    listItem.setAttribute("id", index);
     listItem.innerHTML = content;
     handleClick(listItem);
-
+    
 });
+
+// Deselect any item on clicking the background
+const handleDeselect = () => {
+    document.addEventListener("click", (e) => {
+        let isClicked = document.querySelector(".leftbox").contains(e.target);
+        if(!isClicked){
+            const selectedItem = document.querySelector(".selected");
+            if(selectedItem !== null)
+                selectedItem.classList.remove("selected");
+        }
+    });
+}
 
 // Creating Default Right box column
 updateRightBox(imageList[0].previewImage, imageList[0].title);
+handleKeyboardEvent();
+handleDeselect();
