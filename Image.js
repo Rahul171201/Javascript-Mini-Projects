@@ -18,6 +18,10 @@ const imageList = [
     {
         "previewImage": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
         "title": "interns-performance-report-may-2022.key"
+    },
+    {
+        "previewImage": "default.jpeg",
+        "title": "MAC OS"
     }
 ]
 
