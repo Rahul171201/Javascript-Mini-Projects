@@ -21,7 +21,8 @@ body{
 }
 
 .selected{
-    background-color: #00FFAB;
+    background-color: #2155CD;
+    color: white;
 }
 
 .rightbox{
