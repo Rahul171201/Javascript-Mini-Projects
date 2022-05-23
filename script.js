@@ -1,4 +1,6 @@
-import imageList from "./Image.js";
+import listOfImages from "./Image.js";
+
+let imageList = listOfImages;
 
 // Creating Left box column
 const leftListBox = document.querySelector(".leftbox");
@@ -32,6 +34,12 @@ const handleForm = (target) => {
         const leftItemParent = leftItem.parentElement;
         const leftItemText = leftItemParent.querySelector("p");
         leftItemText.innerHTML = reduceString(currentText);
+
+        // update info in array
+        let elementId = leftItemParent.getAttribute("id");
+        elementId = Number(elementId);
+        imageList[elementId].title = currentText;
+        // console.log(elementId);
     
         // update right column element
         updateRightBox(currentSourceImage, currentText);
@@ -88,7 +96,7 @@ const updateRightBox = (rightImage, rightImageTitle) => {
         <img src=${rightImage} alt="right-image" class="rightImage">
     </div>
     <div class="textBox">
-     <p class="imageTitle">${rightImageTitle}</p>
+     <div class="imageTitle">${rightImageTitle}</div>
      <button class="updateButton" target="#popup">UPDATE</button>
     <div>
     
@@ -107,11 +115,14 @@ const updateRightBox = (rightImage, rightImageTitle) => {
 const handleClick = (listItem) => {
     listItem.addEventListener("click", () => {
         
+        // console.log(imageList);
+
         const imageElement = listItem.querySelector("img");
         let rightImage = imageElement.getAttribute("src");
         
-        const rightTextTitle = listItem.querySelector(".imagetext");
-        let rightImageTitle = rightTextTitle.innerHTML;
+        let elementId = listItem.getAttribute("id");
+        elementId = Number(elementId);
+        let rightImageTitle = imageList[elementId].title;
 
         const selectedItem = document.querySelector(".selected");
         if(selectedItem == null){
@@ -122,6 +133,7 @@ const handleClick = (listItem) => {
             listItem.classList.add("selected");
         }
         
+        // console.log(rightImageTitle);
         updateRightBox(rightImage, rightImageTitle);
     });
 
@@ -157,8 +169,9 @@ const handleKeyboardEvent = () => {
             const imageElement = selectedItem.querySelector("img");
             let rightImage = imageElement.getAttribute("src");
         
-            const rightTextTitle = selectedItem.querySelector(".imagetext");
-            let rightImageTitle = rightTextTitle.innerHTML;
+            let elementId = selectedItem.getAttribute("id");
+            elementId = Number(elementId);
+            let rightImageTitle = imageList[elementId].title;
             updateRightBox(rightImage,rightImageTitle);
         }
     })

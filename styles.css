@@ -15,9 +15,10 @@ body{
 .leftbox{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     width: 300px;
-    margin-right: 90px;
+    height: 800px;
+    margin-right:90px;
+    overflow-y: auto;
 }
 
 .selected{
@@ -43,11 +44,18 @@ body{
     margin: 10px 0px;
     cursor: pointer;
     border-radius: 10px;
-
 }
 
 .imageContainer{
-    
+    justify-content: center;
+    align-items: center;
+}
+
+.imageTitle{
+    font-size: 20px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
 }
 
 [alt='right-image'] {
@@ -64,6 +72,7 @@ body{
     border-style: none;
     border-radius: 9px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 .updateButton:hover{
@@ -75,6 +84,8 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 30vw;
+    height: min-content;
 }
 
 #popup{
